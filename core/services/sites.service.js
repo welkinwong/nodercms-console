@@ -61,18 +61,18 @@ exports.list = function (options, callback) {
  * @param {Function} callback
  */
 exports.one = function (options, callback) {
-  if (!options._id) {
+  if (!options.domain) {
     var err = {
       type: 'system',
-      error: '没有 _id 传入'
+      error: '没有 domain 传入'
     };
 
     return callback(err);
   }
 
-  var _id = options._id;
+  var domain = options.domain;
 
-  sitesModel.findById(_id)
+  sitesModel.findOne({ domain: domain })
     .lean()
     .exec(function (err, site) {
       if (err) {
