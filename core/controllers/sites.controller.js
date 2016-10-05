@@ -99,18 +99,6 @@ exports.create = function (req, res, next) {
     }
   });
 
-  // var data = {
-  //   domain: 'abc.com',
-  //   ip: '128.24.33.121',
-  //   version: '1.12.4',
-  //   os: {
-  //     type: 'Mac',
-  //     version: '11.11'
-  //   },
-  //   node: '6.2',
-  //   mongodb: '3.4'
-  // };
-
   var data = {
     domain: req.body.domain,
     ip: req.body.ip,
@@ -130,7 +118,7 @@ exports.create = function (req, res, next) {
     }
 
     if (site) {
-      sitesService.update({ _id: site._id, data: data }, function (err) {
+      sitesService.save({ _id: site._id, data: data }, function (err) {
         if (err) {
           logger[err.type]().error(__filename, err);
           return res.status(500).end();

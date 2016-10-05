@@ -105,6 +105,9 @@ exports.save = function (options, callback) {
   var data = options.data;
 
   if (_id) {
+    // 更新日期
+    data.updateAt = new Date();
+
     sitesModel.update({ _id: _id }, data, { runValidators: true }, function (err) {
       if (err) {
         err.type = 'database';
