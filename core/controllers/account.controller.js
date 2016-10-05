@@ -1,6 +1,8 @@
+var fs = require('fs');
+var path = require('path');
 var logger = require('../../lib/logger.lib');
 var captcha = require('../../lib/captcha.lib');
-var normalConfig = require('../../config/normal.config');
+var normalConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '../../config/normal.config.js')));
 
 /**
  * 检查是否登陆
