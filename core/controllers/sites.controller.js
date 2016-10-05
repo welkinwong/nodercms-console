@@ -162,13 +162,6 @@ exports.update = function (req, res, next) {
         errorMessage: 'domain 不能为空'
       },
       isString: { errorMessage: 'domain 需为字符串' }
-    },
-    'signInAt': {
-      notEmpty: {
-        options: [true],
-        errorMessage: 'signInAt 不能为空'
-      },
-      isDate: { errorMessage: 'signInAt 需为日期' }
     }
   });
 
@@ -178,10 +171,6 @@ exports.update = function (req, res, next) {
   }
 
   var domain = req.body.domain;
-
-  var data = {
-    signInAt: req.body.signInAt
-  };
 
   sitesService.one({ domain: domain }, function (err, site) {
     if (err) {
@@ -194,7 +183,7 @@ exports.update = function (req, res, next) {
       return res.status(500).end();
     }
 
-    sitesService.save({ _id: site._id, data: data }, function (err) {
+    sitesService.save({ _id: site._id, data: { signInAt: new Date() } }, function (err) {
       if (err) {
         logger[err.type]().error(__filename, err);
         return res.status(500).end();
