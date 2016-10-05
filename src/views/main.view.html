@@ -1,0 +1,61 @@
+<nd-navigation></nd-navigation>
+<article ui-view class="page view clearfix">
+  <div class="page-header clearfix">
+    <ol class="heading">
+      <li><a ui-sref="main">控制面板</a></li>
+    </ol>
+  </div>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="row text-center">
+            <div class="col-xs-12"><h4>{{sitesTotal}}</h4><p>总站点数</p></div>
+          </div>
+          <hr>
+          <div class="row text-center">
+            <div class="col-xs-6">
+              <a href="http://www.nodercms.com" target="_blank">
+                <p><i class="fa fa-home fa-2x"></i></p>
+                <p>NoderCMS 官网</p>
+              </a>
+            </div>
+            <div class="col-xs-6">
+              <a href="http://www.nodercms.com/help" target="_blank">
+                <p><i class="fa fa-question-circle fa-2x"></i></p>
+                <p>帮助中心</p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="panel panel-default">
+        <table></table>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-xs-5 text-right"><p><b>网站：</b></p></div>
+            <div class="col-xs-7"><a href="{{website.origin}}" target="_blank">{{website.hostname}}</a></div>
+          </div>
+          <div class="row">
+            <div class="col-xs-5 text-right"><p><b>程序版本：</b></p></div>
+            <div class="col-xs-7"><p>v{{systemInfo.version}}</p></div>
+          </div>
+          <div class="row">
+            <div class="col-xs-5 text-right"><p><b>操作系统：</b></p></div>
+            <div class="col-xs-7"><p>{{systemInfo.osType}} {{systemInfo.osRelease}}</p></div>
+          </div>
+          <div class="row">
+            <div class="col-xs-5 text-right"><p><b>Node：</b></p></div>
+            <div class="col-xs-7"><p>Node.js v{{nodeInfo.node}}</p></div>
+          </div>
+          <div class="row">
+            <div class="col-xs-5 text-right"><p><b>数据库：</b></p></div>
+            <div class="col-xs-7"><p>MongoDB v{{databaseInfo.version}}</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>

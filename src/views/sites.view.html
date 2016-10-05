@@ -1,0 +1,40 @@
+<div ui-view class="view clearfix">
+  <div class="page-header clearfix">
+    <ol class="heading">
+      <li><a ui-sref="main.sites">站点管理</a></li>
+    </ol>
+  </div>
+  <div class="panel panel-default clear-bottom-margin">
+    <div class="panel-body table-responsive">
+      <table class="table table-hover">
+        <thead class="text-center">
+        <tr>
+          <th>域名</th>
+          <th>IP</th>
+          <th>系统版本</th>
+          <th>操作系统</th>
+          <th>Node 版本</th>
+          <th>MongoDB 版本</th>
+          <th>创建日期</th>
+          <th>更新日期</th>
+          <th>最近后台登录</th>
+        </tr>
+        </thead>
+        <tbody class="text-center text-middle">
+        <tr ng-repeat="site in sites">
+          <td>{{site.domain}}</td>
+          <td>{{site.ip}}</td>
+          <td>{{site.version}}</td>
+          <td>{{site.os.type}} {{site.os.version}}</td>
+          <td>{{site.node}}</td>
+          <td>{{site.mongodb}}</td>
+          <td>{{site.createAt | date: 'yyyy年MM月dd日'}}</td>
+          <td>{{site.updateAt | date: 'yyyy年MM月dd日'}}</td>
+          <td>{{site.signInAt | date: 'yyyy年MM月dd日'}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <nd-pagination current-page="$parent.currentPage" total-pages="$parent.totalPages" class="pull-right"></nd-pagination>
+</div>

@@ -1,0 +1,12 @@
+*.log
+.DS_Store
+.idea
+Thumbs.db
+npm-debug.log
+config/database.config.js
+config/normal.config.js
+!.gitkeep
+
+node_modules
+logs/*
+!logs/*/*.gitkeep
