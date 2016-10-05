@@ -9,6 +9,7 @@
   "private": true,
   "dependencies": {
     "async": "^1.5.2",
+    "bluebird": "^3.4.6",
     "body-parser": "~1.15.1",
     "canvas": "^1.4.0",
     "compression": "^1.6.1",
