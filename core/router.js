@@ -56,7 +56,8 @@ module.exports = {
     },
 
     '/sites': {
-      post: 'sites.create'
+      post: 'sites.create',
+      put: 'sites.update'
     }
   }
 };

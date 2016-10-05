@@ -20,15 +20,15 @@ exports.list = function (req, res) {
     }
   });
 
-  var query = {};
-
-  if (req.query.currentPage) query.currentPage = req.query.currentPage;
-  if (req.query.pageSize) query.pageSize = req.query.pageSize;
-
   if (req.validationErrors()) {
     logger.system().error(__filename, '参数验证失败', req.validationErrors());
     return res.status(400).end();
   }
+
+  var query = {};
+
+  if (req.query.currentPage) query.currentPage = req.query.currentPage;
+  if (req.query.pageSize) query.pageSize = req.query.pageSize;
 
   sitesService.list(query, function (err, sites) {
     if (err) {
@@ -46,7 +46,7 @@ exports.list = function (req, res) {
  * @param {Object} res
  * @param {Function} next
  */
-exports.create = function (req, res, next) {
+exports.create = function (req, res) {
   req.checkBody({
     'domain': {
       notEmpty: {
@@ -99,6 +99,13 @@ exports.create = function (req, res, next) {
     }
   });
 
+  if (req.validationErrors()) {
+    logger.system().error(__filename, '参数验证失败', req.validationErrors());
+    return res.status(400).end();
+  }
+
+  var domain = req.body.domain;
+
   var data = {
     domain: req.body.domain,
     ip: req.body.ip,
@@ -111,7 +118,7 @@ exports.create = function (req, res, next) {
     mongodb: req.body.mongodb
   };
 
-  sitesService.one({ domain: req.body.domain }, function (err, site) {
+  sitesService.one({ domain: domain }, function (err, site) {
     if (err) {
       logger[err.type]().error(__filename, err);
       return res.status(500).end();
@@ -127,6 +134,8 @@ exports.create = function (req, res, next) {
         res.status(204).end();
       });
     } else {
+      data.domain = domain;
+
       sitesService.save({ data: data }, function (err) {
         if (err) {
           logger[err.type]().error(__filename, err);
@@ -136,5 +145,62 @@ exports.create = function (req, res, next) {
         res.status(204).end();
       });
     }
+  });
+};
+
+/**
+ * 更新站点
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ */
+exports.update = function (req, res, next) {
+  req.checkBody({
+    'domain': {
+      notEmpty: {
+        options: [true],
+        errorMessage: 'domain 不能为空'
+      },
+      isString: { errorMessage: 'domain 需为字符串' }
+    },
+    'signInAt': {
+      notEmpty: {
+        options: [true],
+        errorMessage: 'signInAt 不能为空'
+      },
+      isDate: { errorMessage: 'signInAt 需为日期' }
+    }
+  });
+
+  if (req.validationErrors()) {
+    logger.system().error(__filename, '参数验证失败', req.validationErrors());
+    return res.status(400).end();
+  }
+
+  var domain = req.body.domain;
+
+  var data = {
+    signInAt: req.body.signInAt
+  };
+
+  sitesService.one({ domain: domain }, function (err, site) {
+    if (err) {
+      logger[err.type]().error(__filename, err);
+      return res.status(500).end();
+    }
+
+    if (!site) {
+      logger.system().error(__filename, '没有找到 site');
+      return res.status(500).end();
+    }
+
+    sitesService.save({ _id: site._id, data: data }, function (err) {
+      if (err) {
+        logger[err.type]().error(__filename, err);
+        return res.status(500).end();
+      }
+
+      res.status(204).end();
+    });
   });
 };
