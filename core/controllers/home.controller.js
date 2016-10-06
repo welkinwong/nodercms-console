@@ -4,5 +4,5 @@
  * @param {Object} res
  */
 module.exports = function (req, res) {
-  res.sendFile('index.html', { root: './public/assets/' });
+  res.sendFile('home.html', { root: './public/assets/' });
 };
