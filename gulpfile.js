@@ -173,7 +173,8 @@ gulp.task('concat-admin-views', function () {
  */
 gulp.task('copy-admin-assets', ['clean'], function () {
   return gulp.src([
-    './src/index.html',
+    './src/admin.html',
+    './src/home.html',
     './src/images/**/*'
   ], { base: './src/' })
     .pipe(gulp.dest('./public/assets/'));

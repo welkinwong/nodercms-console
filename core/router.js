@@ -5,8 +5,12 @@ module.exports = {
   /**
    * Console 首页
    */
-  '/admin*': {
+  '/': {
     get: 'home'
+  },
+
+  '/admin*': {
+    get: 'admin'
   },
 
   /**
