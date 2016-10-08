@@ -4,11 +4,16 @@ var mongoose = require('mongoose');
  * 站群模型
  */
 var sitesSchema = new mongoose.Schema({
-  // 域名
-  domain: {
+  // 主机名
+  hostname: {
     type: String,
     unique: true,
     required: true
+  },
+
+  // 端口
+  port: {
+    type: Number
   },
 
   // IP
@@ -55,12 +60,6 @@ var sitesSchema = new mongoose.Schema({
 
   // 更新日期
   updateAt: {
-    type: Date,
-    default: Date.now
-  },
-
-  // 最后登陆日期
-  signInAt: {
     type: Date,
     default: Date.now
   }

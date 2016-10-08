@@ -33,7 +33,7 @@ exports.list = function (options, callback) {
         .sort('-createAt')
         .skip((currentPage - 1) * pageSize)
         .limit(pageSize)
-        .select('domain ip version os node mongodb createAt updateAt signInAt')
+        .select('hostname port ip version os node mongodb createAt updateAt')
         .lean()
         .exec(function (err, sites) {
           if (err) {
@@ -61,7 +61,7 @@ exports.list = function (options, callback) {
  * @param {Function} callback
  */
 exports.one = function (options, callback) {
-  if (!options.domain) {
+  if (!options.hostname) {
     var err = {
       type: 'system',
       error: '没有 domain 传入'
@@ -70,9 +70,9 @@ exports.one = function (options, callback) {
     return callback(err);
   }
 
-  var domain = options.domain;
+  var hostname = options.hostname;
 
-  sitesModel.findOne({ domain: domain })
+  sitesModel.findOne({ hostname: hostname })
     .lean()
     .exec(function (err, site) {
       if (err) {

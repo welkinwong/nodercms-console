@@ -15,6 +15,7 @@ var app = express();
 /**
  * 中间件
  */
+app.set('trust proxy', true);
 app.use(compression());
 app.use(logger.access());
 app.use(bodyParser.json());

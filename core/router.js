@@ -60,8 +60,7 @@ module.exports = {
     },
 
     '/sites': {
-      post: 'sites.create',
-      put: 'sites.update'
+      post: 'sites.create'
     }
   }
 };

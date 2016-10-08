@@ -48,19 +48,16 @@ exports.list = function (req, res) {
  */
 exports.create = function (req, res) {
   req.checkBody({
-    'domain': {
+    'hostname': {
       notEmpty: {
         options: [true],
-        errorMessage: 'domain 不能为空'
+        errorMessage: 'hostname 不能为空'
       },
-      isString: { errorMessage: 'domain 需为字符串' }
+      isString: { errorMessage: 'hostname 需为字符串' }
     },
-    'ip': {
-      notEmpty: {
-        options: [true],
-        errorMessage: 'ip 不能为空'
-      },
-      isIP: { errorMessage: 'ip 格式不正确' }
+    'port': {
+      optional: true,
+      isNumber: { errorMessage: 'port 需为数字' }
     },
     'version': {
       notEmpty: {
@@ -104,11 +101,15 @@ exports.create = function (req, res) {
     return res.status(400).end();
   }
 
-  var domain = req.body.domain;
+  var hostname = req.body.hostname;
+
+  if (hostname === 'localhost' && hostname === '127.0.0.1') {
+    return res.status(400).end();
+  }
 
   var data = {
-    domain: req.body.domain,
-    ip: req.body.ip,
+    port: req.body.port,
+    ip: req.ip,
     version: req.body.version,
     os: {
       type: req.body.os.type,
@@ -118,7 +119,7 @@ exports.create = function (req, res) {
     mongodb: req.body.mongodb
   };
 
-  sitesService.one({ domain: domain }, function (err, site) {
+  sitesService.one({ hostname: hostname }, function (err, site) {
     if (err) {
       logger[err.type]().error(__filename, err);
       return res.status(500).end();
@@ -134,7 +135,7 @@ exports.create = function (req, res) {
         res.status(204).end();
       });
     } else {
-      data.domain = domain;
+      data.hostname = hostname;
 
       sitesService.save({ data: data }, function (err) {
         if (err) {
@@ -145,51 +146,5 @@ exports.create = function (req, res) {
         res.status(204).end();
       });
     }
-  });
-};
-
-/**
- * 更新站点
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
- */
-exports.update = function (req, res, next) {
-  req.checkBody({
-    'domain': {
-      notEmpty: {
-        options: [true],
-        errorMessage: 'domain 不能为空'
-      },
-      isString: { errorMessage: 'domain 需为字符串' }
-    }
-  });
-
-  if (req.validationErrors()) {
-    logger.system().error(__filename, '参数验证失败', req.validationErrors());
-    return res.status(400).end();
-  }
-
-  var domain = req.body.domain;
-
-  sitesService.one({ domain: domain }, function (err, site) {
-    if (err) {
-      logger[err.type]().error(__filename, err);
-      return res.status(500).end();
-    }
-
-    if (!site) {
-      logger.system().error(__filename, '没有找到 site');
-      return res.status(500).end();
-    }
-
-    sitesService.save({ _id: site._id, data: { signInAt: new Date() } }, function (err) {
-      if (err) {
-        logger[err.type]().error(__filename, err);
-        return res.status(500).end();
-      }
-
-      res.status(204).end();
-    });
   });
 };

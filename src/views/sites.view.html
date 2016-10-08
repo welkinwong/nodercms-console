@@ -17,12 +17,11 @@
           <th>MongoDB 版本</th>
           <th>创建日期</th>
           <th>更新日期</th>
-          <th>最近后台登录</th>
         </tr>
         </thead>
         <tbody class="text-center text-middle">
         <tr ng-repeat="site in sites">
-          <td>{{site.domain}}</td>
+          <td>{{site.hostname}}<span ng-if="site.port">:{{site.port}}</span></td>
           <td>{{site.ip}}</td>
           <td>{{site.version}}</td>
           <td>{{site.os.type}} {{site.os.version}}</td>
@@ -30,7 +29,6 @@
           <td>{{site.mongodb}}</td>
           <td>{{site.createAt | date: 'yyyy年MM月dd日'}}</td>
           <td>{{site.updateAt | date: 'yyyy年MM月dd日'}}</td>
-          <td>{{site.signInAt | date: 'yyyy年MM月dd日'}}</td>
         </tr>
         </tbody>
       </table>
