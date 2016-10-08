@@ -11,6 +11,7 @@
         <tr>
           <th>域名</th>
           <th>IP</th>
+          <th>端口</th>
           <th>系统版本</th>
           <th>操作系统</th>
           <th>Node 版本</th>
@@ -21,8 +22,9 @@
         </thead>
         <tbody class="text-center text-middle">
         <tr ng-repeat="site in sites">
-          <td>{{site.hostname}}<span ng-if="site.port">:{{site.port}}</span></td>
+          <td>{{site.hostname}}</td>
           <td>{{site.ip}}</td>
+          <td>{{site.port}}</td>
           <td>{{site.version}}</td>
           <td>{{site.os.type}} {{site.os.version}}</td>
           <td>{{site.node}}</td>
