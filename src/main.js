@@ -50,12 +50,21 @@ angular.module('nodercms-console', [
         }]
       })
 
-    　//　站点管理
+    　// 站点管理
       .state('main.sites', {
         url: '^/admin/sites',
         controller: 'sites',
         templateProvider: ['$templateCache', function($templateCache) {
           return $templateCache.get('sites.view.html');
+        }]
+      })
+
+      // 系统设置
+      .state('main.setting', {
+        url: '^/admin/setting',
+        controller: 'setting',
+        templateProvider: ['$templateCache', function($templateCache) {
+          return $templateCache.get('setting.view.html');
         }]
       })
   }

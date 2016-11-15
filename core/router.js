@@ -48,6 +48,12 @@ module.exports = {
     // 站点
     '/sites': {
       get: 'sites.list'
+    },
+
+    // 系统信息
+    '/info': {
+      get: 'info.get',
+      put: 'info.update'
     }
   },
 
@@ -57,6 +63,10 @@ module.exports = {
   '/openApi': {
     '*': {
       all: 'cors'
+    },
+
+    '/info': {
+      get: 'info.get'
     },
 
     '/sites': {

@@ -1,3 +1,4 @@
+var validator = require('validator');
 var logger = require('../../lib/logger.lib');
 var sitesService = require('../services/sites.service');
 
