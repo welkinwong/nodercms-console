@@ -22,10 +22,6 @@ module.exports = {
      */
     // 当前用户帐号
     '/account': {
-      '/captcha': {
-        get: 'account.captcha'
-      },
-
       '/sign-in': {
         put: 'account.signIn'
       },

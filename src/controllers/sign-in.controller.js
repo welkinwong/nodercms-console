@@ -7,8 +7,6 @@ angular.module('controllers').controller('signIn', ['$scope', '$timeout', '$stat
 
     $scope.transmitting = false;
     $scope.password = '';
-    $scope.captcha = '';
-    $scope.captchaData = '';
     $scope.autoSignIn = false;
     $scope.wrongEmailOrPassword = false;
     $scope.wrongCaptcha = false;
@@ -17,26 +15,13 @@ angular.module('controllers').controller('signIn', ['$scope', '$timeout', '$stat
       $scope.wrongEmailOrPassword = false;
     }
 
-    function resetCaptcha () {
-      $scope.wrongCaptcha = false;
-    }
-
     $scope.$watch('password', resetEmailAndPassword);
-    $scope.$watch('captcha', resetCaptcha);
-
-    $scope.getCaptcha = function () {
-      $http.get('/api/account/captcha')
-        .then(function (res) {
-          $scope.captchaData = res.data;
-        });
-    }; $scope.getCaptcha();
 
     $scope.signIn = function () {
       $scope.transmitting = true;
 
       $http.put('/api/account/sign-in', {
         password: $scope.password,
-        captcha: $scope.captcha.toLowerCase(),
         autoSignIn: $scope.autoSignIn
       }).then(function () {
         $state.go('main');

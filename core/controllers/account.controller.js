@@ -1,7 +1,6 @@
 var fs = require('fs');
 var path = require('path');
 var logger = require('../../lib/logger.lib');
-var captcha = require('../../lib/captcha.lib');
 var normalConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '../../config/normal.config.js')));
 
 /**
@@ -24,19 +23,6 @@ exports.check = function (req, res, next) {
 };
 
 /**
- * 登陆验证码
- * @param {Object} req
- * @param {Object} res
- */
-exports.captcha = function (req, res) {
-  var source = captcha();
-
-  req.session.captcha = source.code;
-
-  res.status(200).json(source.dataURL);
-};
-
-/**
  * 登陆
  * @param {Object} req
  * 				{String} req.body.email
@@ -45,16 +31,6 @@ exports.captcha = function (req, res) {
  */
 exports.signIn = function (req, res) {
   req.checkBody({
-    'captcha': {
-      notEmpty: {
-        options: [true],
-        errorMessage: 'captcha 不能为空'
-      },
-      isLength: {
-        options: [4, 4],
-        errorMessage: '验证码长度需为 4 位'
-      }
-    },
     'password': {
       notEmpty: {
         options: [true],
@@ -75,22 +51,11 @@ exports.signIn = function (req, res) {
   });
 
   var password = req.body.password;
-  var captcha = req.body.captcha;
   var autoSignIn = req.body.autoSignIn;
 
   if (req.validationErrors()) {
     logger.system().error(__filename, '参数验证失败', req.validationErrors());
     return res.status(400).end();
-  }
-
-  if (captcha !== req.session.captcha) {
-    res.status(401).json({
-      error: {
-        code: 'WRONG_CAPTCHA',
-        message: '验证码错误'
-      }
-    });
-    return false;
   }
 
   if (password === normalConfig.password) {
